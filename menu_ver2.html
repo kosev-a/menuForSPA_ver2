@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu for SPA ver.2</title>
+    <style>
+        .container {
+            padding: 0 calc(50% - 500px / 2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .menu {
+            background-color: cornflowerblue;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 20px 30px;
+            min-width: 150px;
+            max-width: 500px;
+        }
+
+        a {
+            font-size: 2rem;
+            font-family: sans-serif;
+        }
+
+        li {
+            margin: 30px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <ul class="list">
+                <li><a href="#news">Новости</a></li>
+                <li><a href="#friends">Друзья</a></li>
+                <li><a href="#message">Сообщения</a></li>
+            </ul>
+        </div>
+        <div class="menu news hidden">
+            <h3>Новости</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae nobis perspiciatis
+                qui sapiente sed sint veniam. At eos impedit itaque, libero minima perspiciatis quisquam?
+                Ab aliquid at expedita laborum? Amet at autem consectetur dolor eos est laboriosam modi nostrum nulla!</p>
+        </div>
+        <div class="menu friends hidden">
+            <h3>Друзья</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias deleniti dolorem eius facere nihil pariatur
+                porro ratione repudiandae tenetur velit. Incidunt necessitatibus nihil nisi quia!</p>
+        </div>
+        <div class="menu mess hidden">
+            <h3>Сообщения</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci cumque
+                distinctio excepturi laborum magni maiores necessitatibus quod reprehenderit veritatis voluptatibus!
+                Alias aliquam aliquid facilis magni quidem tempore voluptatibus. Ab at culpa facere id ipsum modi molestiae
+                possimus sapiente. Corporis doloremque minus nesciunt quisquam.
+                Dolores ducimus laudantium molestias placeat tenetur voluptatibus!</p>
+        </div>
+    </div>
+
+
+    <script>
+        const list = document.querySelector('.list');
+        let currentPage;
+        const pageMap = {
+            '#news': '.news',
+            '#friends': '.friends',
+            '#message': '.mess'
+        };
+
+        list.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+
+                const newPage = e.target.getAttribute('href');
+
+                history.pushState({
+                    page: newPage
+                }, 'new page');
+
+                handlePage(newPage);
+            }
+        });
+
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.page) {
+                handlePage(e.state.page);
+            }
+        });
+
+        function handlePage(page) {
+            let pageName = pageMap[page];
+            if(pageName) {
+                let page = document.querySelector(pageName);
+
+                if(page) {
+                    if(currentPage) {
+                        currentPage.classList.add('hidden');
+                    }
+
+                    page.classList.remove('hidden');
+                    currentPage = page;
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
